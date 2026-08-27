@@ -22,7 +22,7 @@ const Home = () => {
             const { data } = await api.get(`/events?search=${search}`);
             setEvents(data);
         } catch (error) {
-            console.error('Error fetching events:', error);
+            console.log('Error fetching events:', error);
         } finally {
             setLoading(false);
         }
@@ -80,7 +80,8 @@ const Home = () => {
                     <p className="text-gray-500 text-sm leading-relaxed">All transactions and registrations are bounded by cutting-edge security and 2FA OTP tech.</p>
                 </div>
             </div>
-
+            
+            {/*Upcoming Events */}
             <div className="flex items-center justify-between mb-8 px-2 border-b border-gray-200 pb-4">
                 <h2 className="text-3xl font-extrabold text-gray-900">Upcoming Events</h2>
                 <div className="text-gray-500 font-medium">{events.length} results found</div>
@@ -92,7 +93,7 @@ const Home = () => {
                 <div className="text-center py-20 text-xl text-gray-500">No events found matching your search.</div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {events.map(event => (
+                    {events.map((event) => (
                         <div key={event._id} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition flex flex-col">
                             <div className="h-48 bg-gray-200 overflow-hidden relative">
                                 {event.image ? (

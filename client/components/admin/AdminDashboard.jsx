@@ -34,7 +34,7 @@ const AdminDashboard = () => {
             setEvents(eventsRes.data);
             setBookings(bookingsRes.data);
         } catch (error) {
-            console.error('Error fetching admin data', error);
+            console.log('Error fetching admin data', error);
         } finally {
             setLoading(false);
         }

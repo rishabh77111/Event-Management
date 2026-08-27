@@ -15,7 +15,13 @@ const app = express();
 
 // ================= MIDDLEWARE =================
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: "https://event-management-1-9uum.onrender.com",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 // ================= ROUTES =================

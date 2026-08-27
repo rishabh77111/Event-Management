@@ -2,10 +2,7 @@ import Booking from "../models/Booking.js";
 import Event from "../models/Event.js";
 import OTP from "../models/OTP.js";
 
-import {
-  sendBookingEmail,
-  sendOTPEmail,
-} from "../utils/email.js";
+import {sendBookingEmail,sendOTPEmail,} from "../utils/email.js";
 
 // ================= GENERATE OTP =================
 
