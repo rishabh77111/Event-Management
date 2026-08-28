@@ -2,8 +2,6 @@ import nodemailer from "nodemailer";
 import "dotenv/config";
 
 
-import nodemailer from "nodemailer";
-import "dotenv/config";
 
 console.log(
   "BREVO USER:",
