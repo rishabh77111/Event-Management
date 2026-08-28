@@ -2,17 +2,36 @@ import nodemailer from "nodemailer";
 import "dotenv/config";
 
 
-console.log("BREVO USER EXISTS:", !!process.env.BREVO_SMTP_USER);
-console.log("BREVO KEY EXISTS:", !!process.env.BREVO_SMTP_KEY);
+import nodemailer from "nodemailer";
+import "dotenv/config";
+
+console.log(
+  "BREVO USER:",
+  process.env.BREVO_SMTP_USER ? "LOADED" : "MISSING"
+);
+
+console.log(
+  "BREVO KEY:",
+  process.env.BREVO_SMTP_KEY ? "LOADED" : "MISSING"
+);
+
 const transporter = nodemailer.createTransport({
- host: "smtp-relay.brevo.com",
+  host: "smtp-relay.brevo.com",
   port: 2525,
   secure: false,
-  requireTLS: true,
+
   auth: {
-   user: process.env.BREVO_SMTP_USER,
+    user: process.env.BREVO_SMTP_USER,
     pass: process.env.BREVO_SMTP_KEY,
   },
+});
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("❌ BREVO CONNECTION ERROR:", error);
+  } else {
+    console.log("✅ BREVO CONNECTION SUCCESS");
+  }
 });
 
 // ================= BOOKING EMAIL =================
