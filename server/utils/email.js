@@ -1,73 +1,104 @@
+
 // import nodemailer from "nodemailer";
 // import "dotenv/config";
 
-
+// // ================= GMAIL CONFIG =================
 
 // console.log(
-//   "BREVO USER:",
-//   process.env.BREVO_SMTP_USER ? "LOADED" : "MISSING"
+//   "GMAIL USER:",
+//   process.env.EMAIL_USER ? "LOADED" : "MISSING"
 // );
 
 // console.log(
-//   "BREVO KEY:",
-//   process.env.BREVO_SMTP_KEY ? "LOADED" : "MISSING"
+//   "GMAIL PASSWORD:",
+//   process.env.EMAIL_PASS ? "LOADED" : "MISSING"
 // );
 
 // const transporter = nodemailer.createTransport({
-//   host: "smtp-relay.brevo.com",
-//   port: 2525,
-//   secure: false,
+//   service: "gmail",
 
 //   auth: {
-//     user: process.env.BREVO_SMTP_USER,
-//     pass: process.env.BREVO_SMTP_KEY,
+//     user: process.env.EMAIL_USER,
+//     pass: process.env.EMAIL_PASS,
 //   },
 // });
 
+// // Test Gmail connection
 // transporter.verify((error, success) => {
 //   if (error) {
-//     console.log("❌ BREVO CONNECTION ERROR:", error);
+//     console.error("❌ GMAIL CONNECTION ERROR:", error);
 //   } else {
-//     console.log("✅ BREVO CONNECTION SUCCESS");
+//     console.log("✅ GMAIL CONNECTION SUCCESS");
 //   }
 // });
 
 // // ================= BOOKING EMAIL =================
 
-// export const sendBookingEmail = async (userEmail,userName,eventTitle) => {
+// export const sendBookingEmail = async (
+//   userEmail,
+//   userName,
+//   eventTitle
+// ) => {
 //   try {
 //     const mailOptions = {
-//       from: process.env.EMAIL_USER,
+//       from: `"Eventora" <${process.env.EMAIL_USER}>`,
 //       to: userEmail,
 //       subject: `Booking Confirmed: ${eventTitle}`,
+
 //       html: `
-//         <h2>Hi ${userName}!</h2>
+//         <div
+//           style="
+//             font-family: Arial, sans-serif;
+//             text-align: center;
+//             padding: 20px;
+//           "
+//         >
+//           <h2>Hi ${userName}!</h2>
 
-//         <p>
-//           Your booking for the event
-//           <strong>${eventTitle}</strong>
-//           is successfully confirmed.
-//         </p>
+//           <p>
+//             Your booking for the event
+//             <strong>${eventTitle}</strong>
+//             is successfully confirmed.
+//           </p>
 
-//         <p>
-//           Thank you for choosing Eventora.
-//         </p>
+//           <p>
+//             Thank you for choosing Eventora.
+//           </p>
+//         </div>
 //       `,
 //     };
 
 //     await transporter.sendMail(mailOptions);
 
-//     console.log("Email sent successfully to", userEmail);
+//     console.log(
+//       "✅ Booking email sent successfully to:",
+//       userEmail
+//     );
+
 //   } catch (error) {
-//     console.error("Error sending email:", error);
+//     console.error("❌ Error sending booking email:", error);
+//     throw error;
 //   }
 // };
 
 // // ================= OTP EMAIL =================
 
-// export const sendOTPEmail = async ( userEmail, otp, type) => {
+// export const sendOTPEmail = async (
+//   userEmail,
+//   otp,
+//   type
+// ) => {
+//   console.log(
+//     "🔥 sendOTPEmail CALLED:",
+//     userEmail,
+//     type
+//   );
+
 //   try {
-//     const title = type === "account_verification"? "Verify your Event Account": "Event Booking Verification";
+//     const title =
+//       type === "account_verification"
+//         ? "Verify your Event Account"
+//         : "Event Booking Verification";
 
 //     const msg =
 //       type === "account_verification"
@@ -75,7 +106,7 @@
 //         : "Please use the following OTP to verify and confirm your event booking.";
 
 //     const mailOptions = {
-//       from: process.env.EMAIL_USER,
+//       from: `"Eventora" <${process.env.EMAIL_USER}>`,
 //       to: userEmail,
 //       subject: title,
 
@@ -87,6 +118,7 @@
 //             padding: 20px;
 //           "
 //         >
+
 //           <h2 style="color: #111;">
 //             ${title}
 //           </h2>
@@ -113,6 +145,7 @@
 //             This code expires in 5 minutes.
 //             If you didn't request this, please ignore this email.
 //           </p>
+
 //         </div>
 //       `,
 //     };
@@ -120,30 +153,22 @@
 //     await transporter.sendMail(mailOptions);
 
 //     console.log(
-//       `OTP sent to ${userEmail} for ${type}`
+//       ` OTP sent to ${userEmail} for ${type}`
 //     );
+
 //   } catch (error) {
-//     console.error("Error sending OTP email:", error);
+//     console.error(" Error sending OTP email:", error);
+//     throw error;
 //   }
 // };
+// ```
 
 
-
-
-import "dotenv/config";
-
-// ================= BREVO CONFIG =================
-
-const BREVO_API_URL = "https://api.brevo.com/v3/smtp/email";
-
-console.log(
-  "BREVO API KEY:",
-  process.env.BREVO_API_KEY ? "LOADED" : "MISSING"
-);
 
 // ================= SEND EMAIL HELPER =================
 
 const sendEmail = async (to, subject, html) => {
+  console.log(" sendEmail CALLED:", to, subject);
   try {
     const response = await fetch(BREVO_API_URL, {
       method: "POST",
@@ -244,6 +269,7 @@ export const sendOTPEmail = async (
   otp,
   type
 ) => {
+  console.log("🔥 sendOTPEmail CALLED:", userEmail, otp, type);
   try {
     const title =
       type === "account_verification"
@@ -304,10 +330,11 @@ export const sendOTPEmail = async (
       `OTP sent to ${userEmail} for ${type}`
     );
 
-  } catch (error) {
-    console.error(
-      "Error sending OTP email:",
-      error
-    );
-  }
+ } catch (error) {
+  console.error(
+    "Error sending OTP email:",
+    error
+  );
+  throw error;
+}
 };
